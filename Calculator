@@ -1,0 +1,31 @@
+#Write a python code to create CALCULATOR 
+
+print("Calculator Program")
+
+number1=eval(input("Enter number1"))
+number2=eval(input("Enter number2"))
+
+sign=input("Enter the any sign +,-,*,/,% only")
+
+if sign=='+':
+    add=number1+number2
+    print(add)
+
+elif sign=='-':
+    substraction=number1-number2
+    print(substraction)
+
+elif sign=='*':
+    multiply=number1*number2
+    print(multiply)
+
+elif sign=='/':
+    division=number1/number2
+    print(division)
+
+elif sign=='%':
+     percentage=number1%number2
+     print(percentage)
+else:
+
+    print('invalid number')
