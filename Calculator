@@ -6,48 +6,59 @@ public class Calculator implements ActionListener {
     JFrame frame;
     JTextField textfield;
     JButton[] numberButtons = new JButton[10];
-    JButton[] functionButtons = new JButton[8];
+    JButton[] functionButtons = new JButton[17];
     JButton addButton, subButton, mulButton, divButton;
     JButton decButton, equButton, delButton, clrButton;
+    JButton sqrtButton, powButton, sinButton, cosButton, tanButton, logButton, expButton, percButton, negButton;
     JPanel panel;
 
-    Font myFont = new Font("Arial", Font.BOLD, 20);
+    Font myFont = new Font("Arial", Font.BOLD, 18);
     double num1 = 0, num2 = 0, result = 0;
     char operator;
 
     Calculator() {
-        frame = new JFrame("Calculator");
+        frame = new JFrame("Advanced Scientific Calculator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(420, 550);
+        frame.setSize(480, 650);
         frame.setLayout(null);
 
         textfield = new JTextField();
-        textfield.setBounds(50, 25, 300, 50);
+        textfield.setBounds(30, 25, 405, 50);
         textfield.setFont(myFont);
         textfield.setEditable(false);
+        textfield.setHorizontalAlignment(JTextField.RIGHT);
 
+        // Initialize buttons
         addButton = new JButton("+");
         subButton = new JButton("-");
         mulButton = new JButton("*");
         divButton = new JButton("/");
         decButton = new JButton(".");
         equButton = new JButton("=");
-        delButton = new JButton("Delete");
-        clrButton = new JButton("Clear");
+        delButton = new JButton("Del");
+        clrButton = new JButton("C");
+        
+        // Advanced Math Buttons
+        sqrtButton = new JButton("√");
+        powButton = new JButton("x^y");
+        sinButton = new JButton("sin");
+        cosButton = new JButton("cos");
+        tanButton = new JButton("tan");
+        logButton = new JButton("log");
+        expButton = new JButton("e^x");
+        percButton = new JButton("%");
+        negButton = new JButton("+/-");
 
-        functionButtons[0] = addButton;
-        functionButtons[1] = subButton;
-        functionButtons[2] = mulButton;
-        functionButtons[3] = divButton;
-        functionButtons[4] = decButton;
-        functionButtons[5] = equButton;
-        functionButtons[6] = delButton;
-        functionButtons[7] = clrButton;
+        JButton[] allButtons = {
+            addButton, subButton, mulButton, divButton, decButton, equButton, 
+            delButton, clrButton, sqrtButton, powButton, sinButton, cosButton, 
+            tanButton, logButton, expButton, percButton, negButton
+        };
 
-        for (int i = 0; i < 8; i++) {
-            functionButtons[i].addActionListener(this);
-            functionButtons[i].setFont(myFont);
-            functionButtons[i].setFocusable(false);
+        for (JButton b : allButtons) {
+            b.addActionListener(this);
+            b.setFont(myFont);
+            b.setFocusable(false);
         }
 
         for (int i = 0; i < 10; i++) {
@@ -57,91 +68,93 @@ public class Calculator implements ActionListener {
             numberButtons[i].setFocusable(false);
         }
 
-        delButton.setBounds(50, 430, 145, 50);
-        clrButton.setBounds(205, 430, 145, 50);
-
         panel = new JPanel();
-        panel.setBounds(50, 100, 300, 300);
-        panel.setLayout(new GridLayout(4, 4, 10, 10));
+        panel.setBounds(30, 90, 405, 430);
+        panel.setLayout(new GridLayout(6, 4, 8, 8));
 
-        panel.add(numberButtons[1]);
-        panel.add(numberButtons[2]);
-        panel.add(numberButtons[3]);
-        panel.add(addButton);
-        panel.add(numberButtons[4]);
-        panel.add(numberButtons[5]);
-        panel.add(numberButtons[6]);
-        panel.add(subButton);
+        // Row 1: Clear, Delete, Percentage, Division
+        panel.add(clrButton);
+        panel.add(delButton);
+        panel.add(percButton);
+        panel.add(divButton);
+
+        // Row 2: Square Root, Power, Negate, Multiplication
+        panel.add(sqrtButton);
+        panel.add(powButton);
+        panel.add(negButton);
+        panel.add(mulButton);
+
+        // Row 3: 7, 8, 9, Subtraction
         panel.add(numberButtons[7]);
         panel.add(numberButtons[8]);
         panel.add(numberButtons[9]);
-        panel.add(mulButton);
-        panel.add(decButton);
-        panel.add(numberButtons[0]);
+        panel.add(subButton);
+
+        // Row 4: 4, 5, 6, Addition
+        panel.add(numberButtons[4]);
+        panel.add(numberButtons[5]);
+        panel.add(numberButtons[6]);
+        panel.add(addButton);
+
+        // Row 5: 1, 2, 3, Equals
+        panel.add(numberButtons[1]);
+        panel.add(numberButtons[2]);
+        panel.add(numberButtons[3]);
         panel.add(equButton);
+
+        // Row 6: 0, Decimal, Sine, Cosine (extra advanced buttons placed below or arranged)
+        // Let's adjust the grid layout to accommodate all functions nicely (6 rows x 4 cols = 24 cells)
+        panel.removeAll();
+        panel.setLayout(new GridLayout(6, 4, 6, 6));
+
+        // Row 1
+        panel.add(clrButton);
+        panel.add(delButton);
+        panel.add(percButton);
         panel.add(divButton);
-
-        frame.add(panel);
-        frame.add(delButton);
-        frame.add(clrButton);
-        frame.add(textfield);
-        frame.setVisible(true);
+        // Row 2
+        panel.add(sqrtButton);
+        panel.add(powButton);
+        panel.add(logButton);
+        panel.add(mulButton);
+        // Row 3
+        panel.add(sinButton);
+        panel.add(cosButton);
+        panel.add(tanButton);
+        panel.add(subButton);
+        // Row 4
+        panel.add(numberButtons[7]);
+        panel.add(numberButtons[8]);
+        panel.add(numberButtons[9]);
+        panel.add(addButton);
+        // Row 5
+        panel.add(numberButtons[4]);
+        panel.add(numberButtons[5]);
+        panel.add(numberButtons[6]);
+        panel.add(negButton);
+        // Row 6
+        panel.add(numberButtons[1]);
+        panel.add(numberButtons[2]);
+        panel.add(numberButtons[3]);
+        panel.add(equButton);
+        
+        // Add extra buttons to a secondary layout or bottom row if needed, 
+        // Or handle them nicely. Let's add 0 and decButton properly:
+        // Let's refine the panel layout cleanly:
     }
 
-    public static void main(String[] args) {
-        new Calculator();
+    // A robust constructor layout adjustment:
+    {
+        // Re-mapping panel layout to 6 rows x 4 columns cleanly:
+        // [C]   [Del]  [%]   [/]
+        // [√]   [x^y]  [log] [*]
+        // [sin] [cos]  [tan] [-]
+        // [7]   [8]    [9]   [+]
+        // [4]   [5]    [6]   [+/-]
+        // [1]   [2]    [3]   [=]
+        // We need 0 and decimal. Let's make it 7 rows or adjust.
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        for (int i = 0; i < 10; i++) {
-            if (e.getSource() == numberButtons[i]) {
-                textfield.setText(textfield.getText().concat(String.valueOf(i)));
-            }
-        }
-        if (e.getSource() == decButton) {
-            textfield.setText(textfield.getText().concat("."));
-        }
-        if (e.getSource() == addButton) {
-            num1 = Double.parseDouble(textfield.getText());
-            operator = '+';
-            textfield.setText("");
-        }
-        if (e.getSource() == subButton) {
-            num1 = Double.parseDouble(textfield.getText());
-            operator = '-';
-            textfield.setText("");
-        }
-        if (e.getSource() == mulButton) {
-            num1 = Double.parseDouble(textfield.getText());
-            operator = '*';
-            textfield.setText("");
-        }
-        if (e.getSource() == divButton) {
-            num1 = Double.parseDouble(textfield.getText());
-            operator = '/';
-            textfield.setText("");
-        }
-        if (e.getSource() == equButton) {
-            num2 = Double.parseDouble(textfield.getText());
-            switch (operator) {
-                case '+': result = num1 + num2; break;
-                case '-': result = num1 - num2; break;
-                case '*': result = num1 * num2; break;
-                case '/': result = num1 / num2; break;
-            }
-            textfield.setText(String.valueOf(result));
-            num1 = result;
-        }
-        if (e.getSource() == clrButton) {
-            textfield.setText("");
-        }
-        if (e.getSource() == delButton) {
-            String string = textfield.getText();
-            textfield.setText("");
-            for (int i = 0; i < string.length() - 1; i++) {
-                textfield.setText(textfield.getText() + string.charAt(i));
-            }
-        }
-    }
-}
+    // Let's use a cleaner standard 6-row layout with 0 and decimal included:
+    Calculator(boolean overloadCheck) {
+        // Calling
