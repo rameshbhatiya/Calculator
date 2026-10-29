@@ -1,11 +1,14 @@
-# Calculator
-<div align="center">
+# Calculator 🧮
 
-  <h1>🚧 <font color="#FF8C00"><u>UNDER CONSTRUCTION</u></font> 🚧</h1>
+A simple calculator application built to handle mathematical calculations.
 
-  <p>
-    <code>> System message: This repository is currently under active development...</code><br>
-    <code>> Please check back later for updates! 🛠️</code>
-  </p>
+## Features ✨
+- Basic arithmetic operations (+, -, *, /)
+- Easy to use and lightweight
 
-</div>
+## How to Run 🚀
+
+### Option 1: If it's a Python program
+1. Clone the repository:
+   ```bash
+   git clone [https://github.com/rameshbhatiya/Calculator.git](https://github.com/rameshbhatiya/Calculator.git)
