@@ -8,7 +8,10 @@ A simple calculator application built to handle mathematical calculations.
 
 ## How to Run 🚀
 
-### Option 1: If it's a Python program
+### Prerequisites
+- Python installed on your system.
+
+### Steps to Run:
 1. Clone the repository:
    ```bash
    git clone [https://github.com/rameshbhatiya/Calculator.git](https://github.com/rameshbhatiya/Calculator.git)
