@@ -1,231 +1,45 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+def calculator():
+    print("----------------------------------------")
+    print("           SIMPLE CALCULATOR            ")
+    print("----------------------------------------")
 
-public class Calculator implements ActionListener {
-    JFrame frame;
-    JTextField textfield;
-    JButton[] numberButtons = new JButton[10];
-    
-    JButton addButton, subButton, mulButton, divButton;
-    JButton decButton, equButton, delButton, clrButton;
-    JButton sqrtButton, powButton, sinButton, cosButton, tanButton, logButton, percButton, negButton, expButton;
-    
-    JPanel panel;
-    Font myFont = new Font("Segoe UI", Font.BOLD, 16);
-    
-    double num1 = 0, num2 = 0, result = 0;
-    char operator;
+    while True:
+        try:
+            number1 = float(input("Enter number 1: "))
+            number2 = float(input("Enter number 2: "))
+        except ValueError:
+            print("Invalid input! Please enter numbers only.\n")
+            continue
 
-    Calculator() {
-        frame = new JFrame("Advanced Scientific Calculator");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(420, 620);
-        frame.setLayout(null);
+        sign = input("Enter any sign (+, -, *, /, %) or type 'q' to quit: ").strip()
 
-        textfield = new JTextField();
-        textfield.setBounds(30, 25, 345, 50);
-        textfield.setFont(new Font("Segoe UI", Font.BOLD, 22));
-        textfield.setEditable(false);
-        textfield.setHorizontalAlignment(JTextField.RIGHT);
+        if sign.lower() == 'q':
+            print("Exiting calculator. Goodbye!")
+            break
 
-        // Basic & Function Buttons
-        addButton = new JButton("+");
-        subButton = new JButton("-");
-        mulButton = new JButton("*");
-        divButton = new JButton("/");
-        decButton = new JButton(".");
-        equButton = new JButton("=");
-        delButton = new JButton("Del");
-        clrButton = new JButton("C");
+        if sign == '+':
+            result = number1 + number2
+            print(f"Result: {number1} + {number2} = {result}\n")
+        elif sign == '-':
+            result = number1 - number2
+            print(f"Result: {number1} - {number2} = {result}\n")
+        elif sign == '*':
+            result = number1 * number2
+            print(f"Result: {number1} * {number2} = {result}\n")
+        elif sign == '/':
+            if number2 == 0:
+                print("Error! Division by zero is not allowed.\n")
+            else:
+                result = number1 / number2
+                print(f"Result: {number1} / {number2} = {result}\n")
+        elif sign == '%':
+            if number2 == 0:
+                print("Error! Division by zero is not allowed for percentage.\n")
+            else:
+                result = (number1 / number2) * 100
+                print(f"Result: {number1} is {result}% of {number2}\n")
+        else:
+            print("Invalid sign! Please enter a valid operator (+, -, *, /, %).\n")
 
-        // Scientific Buttons
-        sqrtButton = new JButton("√");
-        powButton = new JButton("x^y");
-        sinButton = new JButton("sin");
-        cosButton = new JButton("cos");
-        tanButton = new JButton("tan");
-        logButton = new JButton("log");
-        percButton = new JButton("%");
-        negButton = new JButton("+/-");
-        expButton = new JButton("e^x");
-
-        JButton[] allButtons = {
-            addButton, subButton, mulButton, divButton, decButton, equButton, 
-            delButton, clrButton, sqrtButton, powButton, sinButton, cosButton, 
-            tanButton, logButton, percButton, negButton, expButton
-        };
-
-        for (JButton b : allButtons) {
-            b.addActionListener(this);
-            b.setFont(myFont);
-            b.setFocusable(false);
-        }
-
-        for (int i = 0; i < 10; i++) {
-            numberButtons[i] = new JButton(String.valueOf(i));
-            numberButtons[i].addActionListener(this);
-            numberButtons[i].setFont(myFont);
-            numberButtons[i].setFocusable(false);
-        }
-
-        panel = new JPanel();
-        panel.setBounds(30, 90, 345, 470);
-        panel.setLayout(new GridLayout(7, 4, 6, 6));
-
-        // Row 1: Clear, Delete, Percentage, Division
-        panel.add(clrButton);
-        panel.add(delButton);
-        panel.add(percButton);
-        panel.add(divButton);
-
-        // Row 2: Square Root, Power, Logarithm, Multiplication
-        panel.add(sqrtButton);
-        panel.add(powButton);
-        panel.add(logButton);
-        panel.add(mulButton);
-
-        // Row 3: Sin, Cos, Tan, Subtraction
-        panel.add(sinButton);
-        panel.add(cosButton);
-        panel.add(tanButton);
-        panel.add(subButton);
-
-        // Row 4: 7, 8, 9, Addition
-        panel.add(numberButtons[7]);
-        panel.add(numberButtons[8]);
-        panel.add(numberButtons[9]);
-        panel.add(addButton);
-
-        // Row 5: 4, 5, 6, e^x
-        panel.add(numberButtons[4]);
-        panel.add(numberButtons[5]);
-        panel.add(numberButtons[6]);
-        panel.add(expButton);
-
-        // Row 6: 1, 2, 3, +/-
-        panel.add(numberButtons[1]);
-        panel.add(numberButtons[2]);
-        panel.add(numberButtons[3]);
-        panel.add(negButton);
-
-        // Row 7: 0, Decimal, Equals (spanning/filling layout neatly)
-        panel.add(numberButtons[0]);
-        panel.add(decButton);
-        panel.add(equButton);
-        // Add an empty placeholder or secondary function button to balance grid
-        JButton blankButton = new JButton("");
-        blankButton.setEnabled(false);
-        panel.add(blankButton);
-
-        frame.add(panel);
-        frame.add(textfield);
-        frame.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new Calculator();
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // Number buttons
-        for (int i = 0; i < 10; i++) {
-            if (e.getSource() == numberButtons[i]) {
-                textfield.setText(textfield.getText().concat(String.valueOf(i)));
-            }
-        }
-
-        if (e.getSource() == decButton) {
-            if (!textfield.getText().contains(".")) {
-                textfield.setText(textfield.getText().concat("."));
-            }
-        }
-
-        // Basic Operators
-        if (e.getSource() == addButton || e.getSource() == subButton || 
-            e.getSource() == mulButton || e.getSource() == divButton || e.getSource() == powButton) {
-            try {
-                num1 = Double.parseDouble(textfield.getText());
-                if (e.getSource() == addButton) operator = '+';
-                if (e.getSource() == subButton) operator = '-';
-                if (e.getSource() == mulButton) operator = '*';
-                if (e.getSource() == divButton) operator = '/';
-                if (e.getSource() == powButton) operator = '^';
-                textfield.setText("");
-            } catch (NumberFormatException ex) {
-                textfield.setText("Error");
-            }
-        }
-
-        // Single-operand Scientific Operations (calculated immediately)
-        try {
-            if (!textfield.getText().isEmpty() && !textfield.getText().equals("Error")) {
-                double val = Double.parseDouble(textfield.getText());
-                if (e.getSource() == sqrtButton) {
-                    textfield.setText(String.valueOf(Math.sqrt(val)));
-                } else if (e.getSource() == sinButton) {
-                    textfield.setText(String.valueOf(Math.sin(Math.toRadians(val))));
-                } else if (e.getSource() == cosButton) {
-                    textfield.setText(String.valueOf(Math.cos(Math.toRadians(val))));
-                } else if (e.getSource() == tanButton) {
-                    textfield.setText(String.valueOf(Math.tan(Math.toRadians(val))));
-                } else if (e.getSource() == logButton) {
-                    textfield.setText(String.valueOf(Math.log10(val)));
-                } else if (e.getSource() == expButton) {
-                    textfield.setText(String.valueOf(Math.exp(val)));
-                } else if (e.getSource() == percButton) {
-                    textfield.setText(String.valueOf(val / 100.0));
-                } else if (e.getSource() == negButton) {
-                    textfield.setText(String.valueOf(val * -1));
-                }
-            }
-        } catch (NumberFormatException ex) {
-            textfield.setText("Error");
-        }
-
-        // Equals Operation
-        if (e.getSource() == equButton) {
-            try {
-                num2 = Double.parseDouble(textfield.getText());
-                switch (operator) {
-                    case '+': result = num1 + num2; break;
-                    case '-': result = num1 - num2; break;
-                    case '*': result = num1 * num2; break;
-                    case '/': 
-                        if (num2 == 0) {
-                            textfield.setText("Undefined");
-                            return;
-                        }
-                        result = num1 / num2; 
-                        break;
-                    case '^': result = Math.pow(num1, num2); break;
-                }
-                // Clean up trailing .0 for cleaner display if it's a whole number
-                if (result == (long) result) {
-                    textfield.setText(String.valueOf((long) result));
-                } else {
-                    textfield.setText(String.valueOf(result));
-                }
-                num1 = result;
-            } catch (Exception ex) {
-                textfield.setText("Error");
-            }
-        }
-
-        // Clear and Delete
-        if (e.getSource() == clrButton) {
-            textfield.setText("");
-            num1 = 0;
-            num2 = 0;
-        }
-        
-        if (e.getSource() == delButton) {
-            String str = textfield.getText();
-            if (!str.isEmpty()) {
-                textfield.setText(str.substring(0, str.length() - 1));
-            }
-        }
-    }
-}
-
+if __name__ == "__main__":
+    calculator()
